@@ -101,9 +101,7 @@ async function run() {
       }
     });
 
-    // -------------------------------------------------------------
-    // API to fetch a specific ebook by its ID (GET)
-    // -------------------------------------------------------------
+
     app.get("/browse-ebooks/:bookId", async (req, res) => {
       try {
         const { bookId } = req.params;
@@ -125,7 +123,7 @@ async function run() {
     console.log("Pinged your deployment. You successfully connected to MongoDB!");
   } finally {
     // Ensures that the client will close when you finish/error
-    // await client.close();
+   
   }
 }
 run().catch(console.dir);
