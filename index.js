@@ -35,7 +35,7 @@ async function run() {
     await client.connect();
     console.log("Successfully connected to MongoDB!");
 
-    // 1. Initialize the database first
+  
     const db = client.db("booksdb");
 
     // 2. Define collections after initializing the database
