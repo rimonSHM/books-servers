@@ -1,9 +1,5 @@
 
 
-
-
-
-
 const express = require('express');
 const cors = require('cors');
 const app = express();
@@ -53,13 +49,18 @@ const client = new MongoClient(uri, {
     deprecationErrors: true,
   }
 });
+
+client.connect(() => {
+ console.log('connecting to MOngo db')
+
+}).catch(console.dir)
   
-async function run() {
-  try {
-    await client.connect();
+// async function run() {
+//   try {
+//     await client.connect();
     console.log("Successfully connected to MongoDB!");
 
-    const db = client.db("booksdb");
+    const db = client.db("books_db");
     const bookCollection = db.collection("add-book");
     const subscriptionCollection = db.collection("subscriptions");
     const userCollection = db.collection("user");
@@ -431,18 +432,19 @@ app.patch("/api/books/:id/status", logger, verifyToken, async (req, res) => {
     });
 
     // await client.db("admin").command({ ping: 1 });
-    console.log("Pinged your deployment. You successfully connected to MongoDB!");
-  } catch (err) {
-    console.error("Failed to connect to MongoDB:", err);
-  }
-}
-run().catch(console.dir);
+//     console.log("Pinged your deployment. You successfully connected to MongoDB!");
+//   } catch (err) {
+//     console.error("Failed to connect to MongoDB:", err);
+//   }
+// }
+// run().catch(console.dir);
 
 app.listen(port, () => {
   console.log(`Express app listening on port ${port}`);
 });
 
 
+module.exports = app;
 
 
 
