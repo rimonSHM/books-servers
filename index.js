@@ -10,7 +10,7 @@ require('dotenv').config();
 // Middleware
 app.use(cors({
   origin: ['http://localhost:3000'], // Next.js Client URL
-  credentials: true
+  credentials: 'https://books-project-snowy.vercel.app'
 }));
 app.use(express.json());
 
@@ -64,7 +64,7 @@ client.connect(() => {
     const bookCollection = db.collection("add-book");
     const subscriptionCollection = db.collection("subscriptions");
     const userCollection = db.collection("user");
-    const browseEbooksCollection = db.collection("courses");
+    // const browseEbooksCollection = db.collection("courses");
     const sessionCollection = db.collection("session");
 
     const bookmarksCollection = db.collection("bookmarks");
@@ -386,8 +386,10 @@ app.patch("/api/books/:id/status", logger, verifyToken, async (req, res) => {
     app.get("/browse-ebooks", async (req, res) => {
   try {
     const { searchTerm } = req.query; // ফ্রন্টএন্ড থেকে পাঠানো searchTerm ধরা হচ্ছে
+    console.log(searchTerm)
     let query = {};
 
+    
     if (searchTerm) {
       // Regex তৈরি করা হচ্ছে যেন ছোট/বড় হাতের অক্ষরের পার্থক্য ছাড়াই মিল পাওয়া যায়
       const searchRegex = new RegExp(searchTerm, "i");
@@ -400,7 +402,7 @@ app.patch("/api/books/:id/status", logger, verifyToken, async (req, res) => {
       };
     }
 
-    const cursor = browseEbooksCollection.find(query);
+    const cursor = bookCollection.find(query);
     const result = await cursor.toArray();
     res.send(result);
   } catch (error) {
@@ -419,7 +421,7 @@ app.patch("/api/books/:id/status", logger, verifyToken, async (req, res) => {
       try {
         const { bookId } = req.params;
         const query = { _id: new ObjectId(bookId) };
-        const result = await browseEbooksCollection.findOne(query);
+        const result = await bookCollection.findOne(query);
         
         if (!result) {
           return res.status(404).send("Book not found");
@@ -445,6 +447,9 @@ app.listen(port, () => {
 
 
 module.exports = app;
+
+
+
 
 
 
